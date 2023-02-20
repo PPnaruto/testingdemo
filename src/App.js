@@ -1,23 +1,29 @@
 import logo from './logo.svg';
 import './App.css';
+import Action from './action';
+import { useEffect, useState } from 'react';
+
 
 function App() {
+
+  const [state,setState] = useState([]);
+
+  let getData = ()=>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then((res)=>res.json())
+    .then((res)=>{
+        console.log(res);
+        setState(res);
+        // setState(res.data.items);
+    })
+}
+useEffect(()=>{
+    getData();
+},[])
+  const names = state.map((ele)=>ele.name);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Action data={names}/>
     </div>
   );
 }
